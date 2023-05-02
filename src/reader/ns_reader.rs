@@ -524,6 +524,7 @@ impl<R: BufRead> NsReader<R> {
     pub fn read_to_end_into(&mut self, end: QName, buf: &mut Vec<u8>) -> Result<Span> {
         // According to the https://www.w3.org/TR/xml11/#dt-etag, end name should
         // match literally the start name. See `Self::check_end_names` documentation
+        self.pending_pop = true;
         self.reader.read_to_end_into(end, buf)
     }
 }
@@ -760,6 +761,7 @@ impl<'i> NsReader<&'i [u8]> {
     pub fn read_to_end(&mut self, end: QName) -> Result<Span> {
         // According to the https://www.w3.org/TR/xml11/#dt-etag, end name should
         // match literally the start name. See `Self::check_end_names` documentation
+        self.pending_pop = true;
         self.reader.read_to_end(end)
     }
 
